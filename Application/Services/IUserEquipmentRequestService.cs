@@ -1,7 +1,7 @@
 using Domain.Entities;
 using Domain.Enums;
 
-namespace Application.Interfaces;
+namespace Application.Services;
 
 public interface IUserEquipmentRequestService
 {

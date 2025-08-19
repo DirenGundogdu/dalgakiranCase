@@ -1,6 +1,6 @@
 using Domain.Entities;
 
-namespace Application.Interfaces;
+namespace Application.Services;
 
 public interface IEquipmentService
 {
