@@ -11,4 +11,6 @@ public sealed class UserEquipmentRequest : BaseEntity
     public User User { get; set; }
     public Equipment Equipment { get; set; }
     
+    public EquipmentStatus Status { get; set; }
+    
 }

@@ -58,15 +58,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Register repositories for DI
 builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
-builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserEquipmentRepository, UserEquipmentRepository>();
 builder.Services.AddScoped<IUserEquipmentRequestRepository, UserEquipmentRequestRepository>();
-builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IEquipmentService, EquipmentService>();
-builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IUserEquipmentService, UserEquipmentService>();
 builder.Services.AddScoped<IUserEquipmentRequestService, UserEquipmentRequestService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();

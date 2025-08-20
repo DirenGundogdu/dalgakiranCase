@@ -28,83 +28,99 @@ public class EquipmentsController : ControllerBase
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
-
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Equipment>> GetEquipment(Guid id)
-    {
+    
+    [HttpGet("/api/UnassignedEquipments")]
+    public async Task<IActionResult> GetAllUnassignedEquipment() {
         try
         {
-            var equipment = await _equipmentService.GetEquipmentByIdAsync(id);
-            if (equipment == null)
-                return NotFound($"Equipment with ID {id} not found");
-
-            return Ok(equipment);
+            var equipments = await _equipmentService.GetAllUnassignedEquipmentAsync();
+            return Ok(equipments);
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            return StatusCode(500, $"Internal server error: {ex.Message}");
+            Console.WriteLine(e);
+            throw;
         }
     }
+
+    
+    // [HttpGet("{id}")]
+    // public async Task<ActionResult<Equipment>> GetEquipment(Guid id)
+    // {
+    //     try
+    //     {
+    //         var equipment = await _equipmentService.GetEquipmentByIdAsync(id);
+    //         if (equipment == null)
+    //             return NotFound($"Equipment with ID {id} not found");
+    //
+    //         return Ok(equipment);
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         return StatusCode(500, $"Internal server error: {ex.Message}");
+    //     }
+    // }
     
 
-    [HttpPost]
-    public async Task<ActionResult<Equipment>> CreateEquipment([FromBody] Equipment equipment)
-    {
-        try
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var createdEquipment = await _equipmentService.CreateEquipmentAsync(equipment);
-            return CreatedAtAction(nameof(GetEquipment), new { id = createdEquipment.Id }, createdEquipment);
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(ex.Message);
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(ex.Message);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"Internal server error: {ex.Message}");
-        }
-    }
-
-    [HttpPut("{id}")]
-    public async Task<ActionResult<Equipment>> UpdateEquipment(Guid id, [FromBody] Equipment equipment)
-    {
-        try
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            equipment.Id = id;
-            var updatedEquipment = await _equipmentService.UpdateEquipmentAsync(equipment);
-            return Ok(updatedEquipment);
-        }
-        catch (ArgumentException ex)
-        {
-            return BadRequest(ex.Message);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"Internal server error: {ex.Message}");
-        }
-    }
-
-    [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteEquipment(Guid id)
-    {
-        try
-        {
-            await _equipmentService.DeleteEquipmentAsync(id);
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"Internal server error: {ex.Message}");
-        }
-    }
+    // [HttpPost]
+    // public async Task<ActionResult<Equipment>> CreateEquipment([FromBody] Equipment equipment)
+    // {
+    //     try
+    //     {
+    //         if (!ModelState.IsValid)
+    //             return BadRequest(ModelState);
+    //
+    //         var createdEquipment = await _equipmentService.CreateEquipmentAsync(equipment);
+    //         return CreatedAtAction(nameof(GetEquipment), new { id = createdEquipment.Id }, createdEquipment);
+    //     }
+    //     catch (ArgumentException ex)
+    //     {
+    //         return BadRequest(ex.Message);
+    //     }
+    //     catch (InvalidOperationException ex)
+    //     {
+    //         return Conflict(ex.Message);
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         return StatusCode(500, $"Internal server error: {ex.Message}");
+    //     }
+    // }
+    //
+    // [HttpPut("{id}")]
+    // public async Task<ActionResult<Equipment>> UpdateEquipment(Guid id, [FromBody] Equipment equipment)
+    // {
+    //     try
+    //     {
+    //         if (!ModelState.IsValid)
+    //             return BadRequest(ModelState);
+    //
+    //         equipment.Id = id;
+    //         var updatedEquipment = await _equipmentService.UpdateEquipmentAsync(equipment);
+    //         return Ok(updatedEquipment);
+    //     }
+    //     catch (ArgumentException ex)
+    //     {
+    //         return BadRequest(ex.Message);
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         return StatusCode(500, $"Internal server error: {ex.Message}");
+    //     }
+    // }
+    //
+    // [HttpDelete("{id}")]
+    // public async Task<ActionResult> DeleteEquipment(Guid id)
+    // {
+    //     try
+    //     {
+    //         await _equipmentService.DeleteEquipmentAsync(id);
+    //         return NoContent();
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         return StatusCode(500, $"Internal server error: {ex.Message}");
+    //     }
+    // }
+    
 }

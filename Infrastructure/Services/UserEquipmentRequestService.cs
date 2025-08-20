@@ -1,3 +1,4 @@
+using Application.DTOs;
 using Application.Services;
 using Application.Interfaces;
 using Domain.Entities;
@@ -23,7 +24,7 @@ public class UserEquipmentRequestService : IUserEquipmentRequestService
 
     public async Task<IEnumerable<UserEquipmentRequest>> GetAllRequestsAsync()
     {
-        return await _requestRepository.GetAll();
+        return await _requestRepository.GetAllRequestsAsync();
     }
 
     public async Task<UserEquipmentRequest> GetRequestByIdAsync(Guid id)
@@ -49,27 +50,32 @@ public class UserEquipmentRequestService : IUserEquipmentRequestService
         return requests.Where(r => r.Priority == priority);
     }
 
-    public async Task<UserEquipmentRequest> CreateRequestAsync(UserEquipmentRequest request)
+    public async Task<UserEquipmentRequest> CreateRequestAsync(CreateUserEquipmentRequestDTO request)
     {
-        if (string.IsNullOrEmpty(request.Description))
-            throw new ArgumentException("Request description is required");
-
-        // Validate user exists
-        var user = await _userRepository.GetById((int)request.UserId.GetHashCode());
+        var user = await _userRepository.GetUserByGuidIdAsync(request.UserId);
         if (user == null)
             throw new ArgumentException("User not found");
 
-        // Validate equipment exists
-        var equipment = await _equipmentRepository.GetById((int)request.EquipmentId.GetHashCode());
+        var equipments = await _equipmentRepository.GetAllUnassignedEquipment();
+        
+       var equipment = equipments.FirstOrDefault(x=> x.Id == request.EquipmentId);
+       
         if (equipment == null)
             throw new ArgumentException("Equipment not found");
-
-        request.Id = Guid.NewGuid();
-        request.CreatedAt = DateTime.UtcNow;
-        request.UpdatedAt = DateTime.UtcNow;
-
-        await _requestRepository.Create(request);
-        return request;
+        
+        var newRequest = new UserEquipmentRequest {
+            Id = Guid.CreateVersion7(),
+            UserId = request.UserId,
+            EquipmentId = request.EquipmentId,
+            Priority = (Priority)request.Priority,
+            Status = EquipmentStatus.pending,
+            Description = request.Description,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+        
+        await _requestRepository.Create(newRequest);
+        return newRequest;
     }
 
     public async Task<UserEquipmentRequest> UpdateRequestAsync(UserEquipmentRequest request)
@@ -93,5 +99,9 @@ public class UserEquipmentRequestService : IUserEquipmentRequestService
         var requests = await _requestRepository.GetAll();
         return requests.OrderByDescending(r => r.Priority)
                       .ThenBy(r => r.CreatedAt);
+    }
+
+    public async Task UpdateRequestStatusAsync(Guid requestId, int status, Guid userId) {
+        await _requestRepository.UpdateRequestStatus(requestId,status,userId);
     }
 }

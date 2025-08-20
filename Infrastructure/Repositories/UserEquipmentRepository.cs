@@ -7,9 +7,9 @@ namespace Infrastructure.Repositories;
 public class UserEquipmentRepository : Repository<UserEquipment>, IUserEquipmentRepository
 {
     public UserEquipmentRepository(AppDbContext context) : base(context) { }
-    public async Task<UserEquipment> GetUserEquipmentByUserIdAsync(Guid userId) {
-        return await _context.UserEquipments
-            .Include(x=>x.Equipment).FirstOrDefaultAsync(ue => ue.UserId == userId);
+    public async Task<IEnumerable<UserEquipment>> GetUserEquipmentByUserIdAsync(Guid userId) {
+        return await _context.UserEquipments.Where(x => x.UserId == userId)
+            .Include(x=>x.Equipment).ToListAsync();
     }
 }
 

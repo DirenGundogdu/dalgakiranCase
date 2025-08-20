@@ -13,7 +13,7 @@ export default function Home() {
     console.log("Role:", role);
      if (role === "Admin") {
       router.replace("/admin");
-    } else if (role === "Kullanıcı") {
+    } else if (role === "User") {
       router.replace("/user");
     } else {
       router.replace("/login");

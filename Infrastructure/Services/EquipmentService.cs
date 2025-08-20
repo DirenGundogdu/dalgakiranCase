@@ -15,7 +15,7 @@ public class EquipmentService : IEquipmentService
 
     public async Task<IEnumerable<Equipment>> GetAllEquipmentsAsync()
     {
-        return await _equipmentRepository.GetAll();
+        return await _equipmentRepository.GetAllEquipmentWithUserAsync();
     }
 
     public async Task<Equipment> GetEquipmentByIdAsync(Guid id)
@@ -69,5 +69,10 @@ public class EquipmentService : IEquipmentService
     {
         var equipments = await _equipmentRepository.GetAll();
         return equipments.FirstOrDefault(e => e.SerialNumber == serialNumber);
+    }
+    
+    public async Task<IEnumerable<Equipment>> GetAllUnassignedEquipmentAsync()
+    {
+        return await _equipmentRepository.GetAllUnassignedEquipment();
     }
 }

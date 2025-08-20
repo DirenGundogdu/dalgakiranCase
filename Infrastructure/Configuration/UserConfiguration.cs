@@ -31,9 +31,7 @@ public class UserConfiguration : IEntityTypeConfiguration<Domain.Entities.User>
         builder.HasIndex(x => x.Email)
             .IsUnique();
 
-        builder.HasOne(u => u.UserRole)
-            .WithOne(x => x.User)
-            .HasForeignKey<UserRole>(x => x.UserId);
+        builder.Property(u => u.Role).IsRequired();
 
         builder.HasMany(u => u.UserEquipments)
             .WithOne(x => x.User)

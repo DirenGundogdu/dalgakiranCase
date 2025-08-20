@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250819165900_InitialCreate")]
+    [Migration("20250820115727_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -114,44 +114,6 @@ namespace Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Domain.Entities.Role", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Roles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Admin",
-                            UpdatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Name = "Kullanıcı",
-                            UpdatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        });
-                });
-
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -181,6 +143,9 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -200,6 +165,7 @@ namespace Infrastructure.Migrations
                             FirstName = "Ali",
                             LastName = "Veli",
                             Password = "HashedPassword123!",
+                            Role = 2,
                             UpdatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -210,6 +176,7 @@ namespace Infrastructure.Migrations
                             FirstName = "Ayşe",
                             LastName = "Kaya",
                             Password = "HashedPassword123!",
+                            Role = 1,
                             UpdatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -220,6 +187,7 @@ namespace Infrastructure.Migrations
                             FirstName = "Mehmet",
                             LastName = "Demir",
                             Password = "HashedPassword123!",
+                            Role = 1,
                             UpdatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -230,6 +198,7 @@ namespace Infrastructure.Migrations
                             FirstName = "Zeynep",
                             LastName = "Şahin",
                             Password = "HashedPassword123!",
+                            Role = 2,
                             UpdatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         },
                         new
@@ -240,6 +209,7 @@ namespace Infrastructure.Migrations
                             FirstName = "Burak",
                             LastName = "Yılmaz",
                             Password = "HashedPassword123!",
+                            Role = 1,
                             UpdatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
                         });
                 });
@@ -291,6 +261,9 @@ namespace Infrastructure.Migrations
                     b.Property<int>("Priority")
                         .HasColumnType("int");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -313,6 +286,7 @@ namespace Infrastructure.Migrations
                             Description = "Dizüstü bilgisayarın ekranında sorun var, değişim gerekiyor",
                             EquipmentId = new Guid("88888888-8888-8888-8888-888888888888"),
                             Priority = 3,
+                            Status = 0,
                             UpdatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             UserId = new Guid("33333333-3333-3333-3333-333333333333")
                         },
@@ -323,53 +297,7 @@ namespace Infrastructure.Migrations
                             Description = "Yazıcı toner değişimi ve bakım talebi",
                             EquipmentId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
                             Priority = 2,
-                            UpdatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = new Guid("44444444-4444-4444-4444-444444444444")
-                        });
-                });
-
-            modelBuilder.Entity("Domain.Entities.UserRole", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId")
-                        .IsUnique();
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("UserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RoleId = new Guid("11111111-1111-1111-1111-111111111111"),
-                            UpdatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = new Guid("33333333-3333-3333-3333-333333333333")
-                        },
-                        new
-                        {
-                            Id = new Guid("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"),
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RoleId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            Status = 0,
                             UpdatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             UserId = new Guid("44444444-4444-4444-4444-444444444444")
                         });
@@ -413,25 +341,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.Entities.UserRole", b =>
-                {
-                    b.HasOne("Domain.Entities.Role", "Role")
-                        .WithOne("UserRole")
-                        .HasForeignKey("Domain.Entities.UserRole", "RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.User", "User")
-                        .WithOne("UserRole")
-                        .HasForeignKey("Domain.Entities.UserRole", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Domain.Entities.Equipment", b =>
                 {
                     b.Navigation("UserEquipmentRequests");
@@ -439,20 +348,11 @@ namespace Infrastructure.Migrations
                     b.Navigation("UserEquipments");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Role", b =>
-                {
-                    b.Navigation("UserRole")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Domain.Entities.User", b =>
                 {
                     b.Navigation("UserEquipmentRequests");
 
                     b.Navigation("UserEquipments");
-
-                    b.Navigation("UserRole")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

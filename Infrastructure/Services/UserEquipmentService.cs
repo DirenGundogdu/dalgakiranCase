@@ -30,7 +30,7 @@ public class UserEquipmentService : IUserEquipmentService
         return await _userEquipmentRepository.GetById((int)id.GetHashCode());
     }
 
-    public async Task<UserEquipment> GetUserEquipmentsByUserIdAsync(Guid userId)
+    public async Task<IEnumerable<UserEquipment>> GetUserEquipmentsByUserIdAsync(Guid userId)
     {
         return await _userEquipmentRepository.GetUserEquipmentByUserIdAsync(userId);
        

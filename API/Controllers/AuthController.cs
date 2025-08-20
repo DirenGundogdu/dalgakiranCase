@@ -50,8 +50,8 @@ public class AuthController : ControllerBase
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                Role = user.Role.ToString(),
                 ExpiresAt = DateTime.UtcNow.AddHours(24),
-                Role = user.UserRole.Role.Name
             };
 
             return Ok(response);

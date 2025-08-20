@@ -11,4 +11,6 @@ public interface IEquipmentService
     Task DeleteEquipmentAsync(Guid id);
     Task<IEnumerable<Equipment>> GetEquipmentsByBrandAsync(string brand);
     Task<Equipment> GetEquipmentBySerialNumberAsync(string serialNumber);
+
+    Task<IEnumerable<Equipment>> GetAllUnassignedEquipmentAsync();
 }

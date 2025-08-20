@@ -51,7 +51,7 @@ export default function UserPage() {
   return (
     <div style={{ maxWidth: 800, margin: "40px auto" }}>
       <Button type="primary" style={{ marginBottom: 24 }} onClick={() => router.push("/userPriorityForm")}>Zimmet Talebi Oluştur</Button>
-      <Typography.Title level={2}>Kullanıcı Tablosu</Typography.Title>
+      <Typography.Title level={2}>Zimmetlerim</Typography.Title>
       <Table columns={columns} dataSource={data} pagination={false} />
     </div>
   );
